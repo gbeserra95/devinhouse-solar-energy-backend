@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEVinHouse.SolarEnergy.Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEVinHouse.SolarEnergy.Domain", "src\DEVinHouse.SolarEnergy.Domain\DEVinHouse.SolarEnergy.Domain.csproj", "{9739D912-8462-42F8-865F-4726BBD2A136}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DEVinHouse.SolarEnergy.Identity", "src\DEVinHouse.SolarEnergy.Identity\DEVinHouse.SolarEnergy.Identity.csproj", "{C838C55D-8487-4D82-BC45-5024209F31E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,10 +34,15 @@ Global
 		{9739D912-8462-42F8-865F-4726BBD2A136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9739D912-8462-42F8-865F-4726BBD2A136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9739D912-8462-42F8-865F-4726BBD2A136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C838C55D-8487-4D82-BC45-5024209F31E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C838C55D-8487-4D82-BC45-5024209F31E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C838C55D-8487-4D82-BC45-5024209F31E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C838C55D-8487-4D82-BC45-5024209F31E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1B7775CB-8F56-46E1-9560-C173BC64FB56} = {35323E14-4898-405F-B7C5-2258D7D63A71}
 		{1C792906-0E37-4EC9-AC34-F583EB766E07} = {35323E14-4898-405F-B7C5-2258D7D63A71}
 		{9739D912-8462-42F8-865F-4726BBD2A136} = {35323E14-4898-405F-B7C5-2258D7D63A71}
+		{C838C55D-8487-4D82-BC45-5024209F31E0} = {35323E14-4898-405F-B7C5-2258D7D63A71}
 	EndGlobalSection
 EndGlobal
