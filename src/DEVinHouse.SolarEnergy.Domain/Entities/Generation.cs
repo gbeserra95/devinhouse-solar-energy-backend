@@ -4,16 +4,32 @@ namespace DEVinHouse.SolarEnergy.Domain.Entities
 {
     public class Generation : Entity
     {
-        public int UnitId { get; private set; }
-        public Unit Unit { get; private set; }
-        public DateOnly Date { get; private set; }
-        public double Consumption { get; private set; }
+        public DateTime Date { get; private set; }
+        public decimal MonthlyConsumption { get; private set; }
+        public decimal DailyAverage { get; private set; }
+        public int PlantId { get; private set; }
 
-        public Generation(int unitId, DateOnly date, double consumption)
+        public Generation(DateTime date, decimal monthlyConsumption, int plantId)
         {
-            UnitId = unitId;
             Date = date;
-            Consumption = consumption;            
+            MonthlyConsumption = monthlyConsumption;  
+            PlantId = plantId;
+
+            GetDailyAverageConsumption(date, monthlyConsumption);       
         }
+
+        private void GetDailyAverageConsumption(DateTime date, decimal monthlyConsumption)
+        {
+            var days = DateTime.DaysInMonth(date.Year, date.Month);
+
+            DailyAverage = monthlyConsumption/days;
+        }
+
+        public void UpdateGeneration(DateTime date, decimal monthlyConsumption)
+        {
+            Date = date;
+            MonthlyConsumption = monthlyConsumption;
+        }
+
     }
 }
