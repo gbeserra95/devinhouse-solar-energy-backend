@@ -1,4 +1,5 @@
 using DEVinHouse.SolarEnergy.Data.Context;
+using DEVinHouse.SolarEnergy.Identity.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,10 @@ DotNetEnv.Env.TraversePath().Load();
 builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddDbContext<DataContext>(options =>
+    options.UseSqlServer(System.Environment.GetEnvironmentVariable("CONNECTION_STRING"))
+);
+
+builder.Services.AddDbContext<IdentityDataContext>(options =>
     options.UseSqlServer(System.Environment.GetEnvironmentVariable("CONNECTION_STRING"))
 );
 

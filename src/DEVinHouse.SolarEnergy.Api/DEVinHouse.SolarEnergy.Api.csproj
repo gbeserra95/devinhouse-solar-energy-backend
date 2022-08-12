@@ -17,6 +17,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DEVinHouse.SolarEnergy.Data\DEVinHouse.SolarEnergy.Data.csproj" />
+    <ProjectReference Include="..\DEVinHouse.SolarEnergy.Identity\DEVinHouse.SolarEnergy.Identity.csproj" />
+    <ProjectReference Include="..\DEVinHouse.SolarEnergy.Application\DEVinHouse.SolarEnergy.Application.csproj" />
   </ItemGroup>
 
 </Project>
