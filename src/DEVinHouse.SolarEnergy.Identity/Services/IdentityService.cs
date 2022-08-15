@@ -72,6 +72,7 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 			var user = await _userManager.FindByEmailAsync(email);
 			var tokenClaims = await GetClaims(user);
 
+			var notBefore = DateTime.Now;
 			var expirationDate = DateTime.Now.AddSeconds(_jwtOptions.Expiration);
 
 			var jwt = new JwtSecurityToken
@@ -79,7 +80,7 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 				issuer: _jwtOptions.Issuer,
 				audience: _jwtOptions.Audience,
 				claims: tokenClaims,
-				notBefore: DateTime.Now,
+				notBefore: notBefore,
 				expires: expirationDate,
 				signingCredentials: _jwtOptions.SigningCredentials
 			);

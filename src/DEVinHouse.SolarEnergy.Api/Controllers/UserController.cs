@@ -26,8 +26,7 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             if(result.Success)
                 return Ok(result);
-            
-            if(result.Errors.Count > 0)
+            else if(result.Errors.Count > 0)
                 return BadRequest(result);
             
             return StatusCode(StatusCodes.Status500InternalServerError);
