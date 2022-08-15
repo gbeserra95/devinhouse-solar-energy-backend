@@ -14,7 +14,6 @@ namespace DEVinHouse.SolarEnergy.Application.DTOs.Responses
 
         public List<string> Errors { get; private set; }
 
-
         public UserLoginResponse() => Errors = new List<string>();
 
         public UserLoginResponse(bool success = true) : this() => Success = success;
