@@ -10,9 +10,9 @@ namespace DEVinHouse.SolarEnergy.Application.DTOs.Requests
     {
         [Required]
         [EmailAddress]
-        public string Email { get; private set; }
+        public string Email { get; set; }
 
         [Required]
-        public string Password { get; private set; }
+        public string Password { get; set; }
     }
 }

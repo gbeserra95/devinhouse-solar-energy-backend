@@ -3,6 +3,7 @@ using System.Security.Claims;
 using DEVinHouse.SolarEnergy.Application.DTOs.Requests;
 using DEVinHouse.SolarEnergy.Application.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
+using DEVinHouse.SolarEnergy.Domain.Entities;
 using DEVinHouse.SolarEnergy.Identity.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -11,11 +12,11 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 {
   public class IdentityService : IIdentityService
   {
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly UserManager<User> _userManager;
     private readonly JwtOptions _jwtOptions;
 
-    public IdentityService(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<JwtOptions> jwtOptions)
+    public IdentityService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<JwtOptions> jwtOptions)
     {
 			_signInManager = signInManager;
 			_userManager = userManager;
@@ -24,9 +25,11 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 
 		public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequest userRegister)
     {
-			var identityUser = new IdentityUser
+			var identityUser = new User
 			{
-				UserName = $"{userRegister.FirstName} {userRegister.LastName}",
+				FirstName = userRegister.FirstName,
+				LastName = userRegister.LastName,
+				UserName = userRegister.Email,
 				Email = userRegister.Email,
 				EmailConfirmed = true
 			};
@@ -90,7 +93,7 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 				expirationDate: expirationDate
 			);
 		}
-		private async Task<IList<Claim>> GetClaims(IdentityUser user)
+		private async Task<IList<Claim>> GetClaims(User user)
 			{
 				var claims = await _userManager.GetClaimsAsync(user);
 				

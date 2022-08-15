@@ -1,5 +1,6 @@
 using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
 using DEVinHouse.SolarEnergy.Data.Context;
+using DEVinHouse.SolarEnergy.Domain.Entities;
 using DEVinHouse.SolarEnergy.Identity.Data;
 using DEVinHouse.SolarEnergy.Identity.Services;
 using Microsoft.AspNetCore.Identity;
@@ -23,7 +24,7 @@ namespace DEVinHouse.SolarEnergy.Api.IoC
                 options.UseSqlServer(conStrBuilder.ConnectionString)
             );
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<User>()
                 .AddEntityFrameworkStores<IdentityDataContext>()
                 .AddDefaultTokenProviders();
 
