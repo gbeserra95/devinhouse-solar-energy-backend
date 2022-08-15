@@ -10,9 +10,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-DotNetEnv.Env.TraversePath().Load();
-builder.Configuration.AddEnvironmentVariables();
-
 builder.Services.AddAuthentication(builder.Configuration);
 builder.Services.RegisterServices(builder.Configuration);
 
