@@ -27,7 +27,6 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             var result = await _identityService.RegisterUser(userRegister);
 
             if(result.Success){
-                await _emailService.SendEmailConfirmation(userRegister.Email);
                 return Ok(result);
             }
             else if(result.Errors.Count > 0)
@@ -48,6 +47,22 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
                 return Ok(result);
 
             return Unauthorized(result);
+        }
+
+        [HttpGet("validate")]
+        public async Task<ActionResult<ConfirmEmailResponse>> ValidateEmail(string userId, string token)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            var result = await _emailService.ConfirmEmail(userId, token);
+
+            if(result.Success)
+                return Ok(result);
+            else if(result.Errors.Count > 0)
+                return BadRequest(result);
+            
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
   }
 }

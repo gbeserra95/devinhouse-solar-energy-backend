@@ -15,12 +15,14 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
     private readonly SignInManager<User> _signInManager;
     private readonly UserManager<User> _userManager;
     private readonly JwtOptions _jwtOptions;
+		private readonly IEmailService _emailService;
 
-    public IdentityService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<JwtOptions> jwtOptions)
+    public IdentityService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<JwtOptions> jwtOptions, IEmailService emailService)
     {
 			_signInManager = signInManager;
 			_userManager = userManager;
 			_jwtOptions = jwtOptions.Value;
+			_emailService = emailService;
     }
 
 		public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequest userRegister)
@@ -31,14 +33,15 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 				LastName = userRegister.LastName,
 				UserName = userRegister.Email,
 				Email = userRegister.Email,
-				EmailConfirmed = true
 			};
 
-				var result = await _userManager.CreateAsync(identityUser, userRegister.Password);
-				if(result.Succeeded)
-						await _userManager.SetLockoutEnabledAsync(identityUser, false);
+			var result = await _userManager.CreateAsync(identityUser, userRegister.Password);
+
+			if(result.Succeeded)
+					await _emailService.SendEmailConfirmation(userRegister.Email);
 
 			var userRegisterResponse = new UserRegisterResponse(result.Succeeded);
+
 			if(!result.Succeeded && result.Errors.Count() > 0)
 				userRegisterResponse.AddErrors(result.Errors.Select(err => err.Description));
 
@@ -48,10 +51,12 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
     public async Task<UserLoginResponse> Login(UserLoginRequest userLogin)
     {
 			var result = await _signInManager.PasswordSignInAsync(userLogin.Email, userLogin.Password, false, true);
+
 			if(result.Succeeded)
 				return await GenerateToken(userLogin.Email);
 
 			var userLoginResponse = new UserLoginResponse(result.Succeeded);
+
 			if (!result.Succeeded)
 			{
 				if(result.IsLockedOut)

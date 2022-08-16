@@ -20,6 +20,7 @@ namespace DEVinHouse.SolarEnergy.Application.DTOs.Responses
 
         public UserLoginResponse(bool success, string token, DateTime expirationDate) : this()
         {
+            Success = success;
             Token = token;
             ExpirationDate = expirationDate;
         }

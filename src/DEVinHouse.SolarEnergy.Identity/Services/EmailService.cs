@@ -1,3 +1,4 @@
+using DEVinHouse.SolarEnergy.Application.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
 using DEVinHouse.SolarEnergy.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -32,11 +33,26 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
         {
             user_name = user.FirstName,
             user_email = user.Email,
-            confirmation_url = "https://localhost:3000",
-            confirmation_token = token
+            confirmation_url = $"https://localhost:7116/api/validate/?userId={user.Id}&token={token}"
         });
 
         await client.SendEmailAsync(msg);
+    }
+
+    public async Task<ConfirmEmailResponse> ConfirmEmail(string userId, string token)
+    {
+      var user = await _userManager.FindByIdAsync(userId);      
+      var result = await _userManager.ConfirmEmailAsync(user, token);
+
+			var confirmEmailResponse = new ConfirmEmailResponse(result.Succeeded);
+
+      if(result.Succeeded)
+        await _userManager.SetLockoutEnabledAsync(user, false);
+
+			if(!result.Succeeded && result.Errors.Count() > 0)
+				confirmEmailResponse.AddErrors(result.Errors.Select(err => err.Description));
+
+			return confirmEmailResponse;
     }
   }
 }
