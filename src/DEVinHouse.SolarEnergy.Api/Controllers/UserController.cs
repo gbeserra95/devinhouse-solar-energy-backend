@@ -10,10 +10,12 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IIdentityService _identityService;
+        private readonly IEmailService _emailService;
 
-        public UserController(IIdentityService identityService)
+        public UserController(IIdentityService identityService, IEmailService emailService)
         {
-        _identityService = identityService;
+            _identityService = identityService;
+            _emailService = emailService;
         }
 
         [HttpPost("register")]
@@ -24,8 +26,10 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             var result = await _identityService.RegisterUser(userRegister);
 
-            if(result.Success)
+            if(result.Success){
+                await _emailService.SendEmailConfirmation(userRegister.Email);
                 return Ok(result);
+            }
             else if(result.Errors.Count > 0)
                 return BadRequest(result);
             

@@ -29,6 +29,8 @@ namespace DEVinHouse.SolarEnergy.Api.IoC
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddTransient<IEmailService, EmailService>();
+            services.Configure<AuthMessageSenderOptions>(configuration);
         }
     }
 }
