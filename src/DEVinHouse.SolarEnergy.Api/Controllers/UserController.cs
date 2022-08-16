@@ -49,7 +49,18 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return Unauthorized(result);
         }
 
-        [HttpGet("validate")]
+        [HttpPost("resend-email")]
+        public async Task<ActionResult<ConfirmEmailResponse>> ResendEmail(string email)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            await _emailService.SendEmailConfirmation(email);
+
+            return Ok(new ConfirmEmailResponse{Success = true});
+        }
+
+        [HttpPost("validate")]
         public async Task<ActionResult<ConfirmEmailResponse>> ValidateEmail(string userId, string token)
         {
             if(!ModelState.IsValid)
