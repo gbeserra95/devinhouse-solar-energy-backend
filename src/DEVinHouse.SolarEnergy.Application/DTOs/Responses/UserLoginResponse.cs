@@ -4,7 +4,7 @@ namespace DEVinHouse.SolarEnergy.Application.DTOs.Responses
 {
     public class UserLoginResponse
     {
-        public bool Success { get; set; }
+        public bool Success { get; private set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string Token { get; private set; }

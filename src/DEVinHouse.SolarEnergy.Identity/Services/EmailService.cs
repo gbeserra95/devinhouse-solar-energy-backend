@@ -21,7 +21,7 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 
     public async Task SendEmailConfirmation(string email)
     {
-        var user = await _userManager.FindByEmailAsync(email.ToLower());
+        var user = await _userManager.FindByEmailAsync(email);
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
         var client = new SendGridClient(_options.SendGridKey);
@@ -39,12 +39,12 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
         await client.SendEmailAsync(msg);
     }
 
-    public async Task<ConfirmEmailResponse> ConfirmEmail(string userId, string token)
+    public async Task<EmailConfirmationResponse> ConfirmEmail(string userId, string token)
     {
       var user = await _userManager.FindByIdAsync(userId);      
       var result = await _userManager.ConfirmEmailAsync(user, token);
 
-			var confirmEmailResponse = new ConfirmEmailResponse(result.Succeeded);
+			var confirmEmailResponse = new EmailConfirmationResponse(result.Succeeded);
 
       if(result.Succeeded)
         await _userManager.SetLockoutEnabledAsync(user, false);
@@ -53,6 +53,31 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 				confirmEmailResponse.AddErrors(result.Errors.Select(err => err.Description));
 
 			return confirmEmailResponse;
+    }
+
+    public async Task<PasswordForgottenResponse> ForgotPassword(string email)
+    {
+      var user = await _userManager.FindByEmailAsync(email);
+      var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+      var client = new SendGridClient(_options.SendGridKey);
+      var msg = new SendGridMessage();
+      msg.SetFrom(_options.SendGridEmail, _options.SendGridName);
+      msg.AddTo(user.Email, user.FirstName);
+      msg.SetTemplateId(_options.ResetPasswordEmailTemplateId);
+      msg.SetTemplateData(new
+      {
+          user_name = user.FirstName,
+          confirmation_url = $"https://localhost:7116/api/reset-password/?userId={user.Id}&token={token}"
+      });
+
+      var response = await client.SendEmailAsync(msg);
+      var forgotPasswordResponse = new PasswordForgottenResponse(response.IsSuccessStatusCode);
+
+      if(!response.IsSuccessStatusCode)
+        forgotPasswordResponse.Error = "Email could NOT be sent";
+
+      return forgotPasswordResponse;
     }
   }
 }

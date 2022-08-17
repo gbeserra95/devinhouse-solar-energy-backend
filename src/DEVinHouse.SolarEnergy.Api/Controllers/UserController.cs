@@ -50,18 +50,18 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
         }
 
         [HttpPost("resend-email")]
-        public async Task<ActionResult<ConfirmEmailResponse>> ResendEmail(string email)
+        public async Task<ActionResult<EmailConfirmationResponse>> ResendEmail(string email)
         {
             if(!ModelState.IsValid)
                 return BadRequest();
 
             await _emailService.SendEmailConfirmation(email);
 
-            return Ok(new ConfirmEmailResponse{Success = true});
+            return Ok(new EmailConfirmationResponse());
         }
 
-        [HttpPost("validate")]
-        public async Task<ActionResult<ConfirmEmailResponse>> ValidateEmail(string userId, string token)
+        [HttpGet("validate-email")]
+        public async Task<ActionResult<EmailConfirmationResponse>> ValidateEmail(string userId, string token)
         {
             if(!ModelState.IsValid)
                 return BadRequest();
@@ -73,6 +73,22 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             else if(result.Errors.Count > 0)
                 return BadRequest(result);
             
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult<PasswordForgottenResponse>> ForgotPassword(PasswordForgottenRequest forgotPasswordRequest)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            var result = await _emailService.ForgotPassword(forgotPasswordRequest.Email);
+
+            if(result.Success)
+                return Ok(result);
+            else if(result.Error != null)
+                return BadRequest(result);
+
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
   }

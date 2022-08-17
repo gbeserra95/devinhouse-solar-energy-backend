@@ -5,6 +5,7 @@ namespace DEVinHouse.SolarEnergy.Application.Interfaces.Services
     public interface IEmailService
     {
         Task SendEmailConfirmation(string email);
-        Task<ConfirmEmailResponse> ConfirmEmail(string userId, string token);
+        Task<EmailConfirmationResponse> ConfirmEmail(string userId, string token);
+        Task<PasswordForgottenResponse> ForgotPassword(string email);
     }
 }
