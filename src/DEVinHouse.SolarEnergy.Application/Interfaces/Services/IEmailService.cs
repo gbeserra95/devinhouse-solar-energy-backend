@@ -7,5 +7,6 @@ namespace DEVinHouse.SolarEnergy.Application.Interfaces.Services
         Task SendEmailConfirmation(string email);
         Task<EmailConfirmationResponse> ConfirmEmail(string userId, string token);
         Task<PasswordForgottenResponse> ForgotPassword(string email);
+        Task<PasswordResetResponse> ResetPassword(string userId, string token, string newPassword);
     }
 }

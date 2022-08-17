@@ -50,23 +50,23 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
         }
 
         [HttpPost("resend-email")]
-        public async Task<ActionResult<EmailConfirmationResponse>> ResendEmail(string email)
+        public async Task<ActionResult<EmailConfirmationResponse>> ResendEmail(EmailRequest emailRequest)
         {
             if(!ModelState.IsValid)
                 return BadRequest();
 
-            await _emailService.SendEmailConfirmation(email);
+            await _emailService.SendEmailConfirmation(emailRequest.Email);
 
             return Ok(new EmailConfirmationResponse());
         }
 
-        [HttpGet("validate-email")]
-        public async Task<ActionResult<EmailConfirmationResponse>> ValidateEmail(string userId, string token)
+        [HttpPost("validate-email")]
+        public async Task<ActionResult<EmailConfirmationResponse>> ValidateEmail(EmailConfirmationRequest emailConfirmationRequest)
         {
             if(!ModelState.IsValid)
                 return BadRequest();
 
-            var result = await _emailService.ConfirmEmail(userId, token);
+            var result = await _emailService.ConfirmEmail(emailConfirmationRequest.UserId.ToString(), emailConfirmationRequest.Token);
 
             if(result.Success)
                 return Ok(result);
@@ -89,6 +89,22 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             else if(result.Error != null)
                 return BadRequest(result);
 
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<ActionResult<PasswordResetResponse>> ResetPassword(PasswordResetRequest passwordResetRequest)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            var result = await _emailService.ResetPassword(passwordResetRequest.UserId.ToString(), passwordResetRequest.Token, passwordResetRequest.Password);
+
+            if(result.Success)
+                return Ok(result);
+            else if(result.Errors.Count > 0)
+                return BadRequest(result);
+            
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
   }

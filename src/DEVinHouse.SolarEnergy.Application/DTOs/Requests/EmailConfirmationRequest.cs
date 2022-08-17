@@ -8,6 +8,6 @@ namespace DEVinHouse.SolarEnergy.Application.DTOs.Requests
         public Guid UserId { get; set; }
         
         [Required]
-        public string token {get; set; }
+        public string Token {get; set; }
     }
 }

@@ -79,5 +79,18 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 
       return forgotPasswordResponse;
     }
+
+    public async Task<PasswordResetResponse> ResetPassword(string userId, string token, string newPassword)
+    {
+      var user = await _userManager.FindByIdAsync(userId);      
+      var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+			var passwordResetResponse = new PasswordResetResponse(result.Succeeded);
+
+			if(!result.Succeeded && result.Errors.Count() > 0)
+				passwordResetResponse.AddErrors(result.Errors.Select(err => err.Description));
+
+			return passwordResetResponse;
+    }
   }
 }
