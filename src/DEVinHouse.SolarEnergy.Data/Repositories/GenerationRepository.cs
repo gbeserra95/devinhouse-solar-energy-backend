@@ -15,25 +15,25 @@ namespace DEVinHouse.SolarEnergy.Data.Repositories
         _baseRepository = baseRepository;
         _dataContext = dataContext;
     }
-     
-    public async Task<int> CreateAsync(Generation entity)
-    {
-      return await _baseRepository.CreateAsync(entity);
-    }
 
-    public async Task DeleteAsync(Generation entity)
-    {
-      await _baseRepository.DeleteAsync(entity);
-    }
-
-    public async Task<Generation?> FindByDate(DateTime date)
+    public Task<int> CreateAsync(Generation entity)
     {
       throw new NotImplementedException();
     }
 
-    public async Task<Generation?> GetByIdAsync(int id)
+    public Task DeleteAsync(Generation entity)
     {
-      return await _baseRepository.GetByIdAsync(id);
+      throw new NotImplementedException();
+    }
+
+    public Task<Generation?> FindByDate(DateTime date)
+    {
+      throw new NotImplementedException();
+    }
+
+    public Task<Generation?> GetByIdAsync(int id)
+    {
+      throw new NotImplementedException();
     }
 
     public Task<IEnumerable<Generation>?> GetByPlantAsync(int plantId)
@@ -41,14 +41,14 @@ namespace DEVinHouse.SolarEnergy.Data.Repositories
       throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<Generation>?> GetGenerationsAsync(int userId)
+    public Task<IEnumerable<Generation>?> GetGenerationsAsync(int userId)
     {
-      return await _baseRepository.GetAllAsync();
+      throw new NotImplementedException();
     }
 
-    public async Task UpdateAsync(Generation entity)
+    public Task UpdateAsync(Generation entity)
     {
-      await _baseRepository.UpdateAsync(entity);
+      throw new NotImplementedException();
     }
   }
 }

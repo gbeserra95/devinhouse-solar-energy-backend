@@ -1,6 +1,10 @@
 using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
 using DEVinHouse.SolarEnergy.Data.Context;
+using DEVinHouse.SolarEnergy.Data.Repositories;
 using DEVinHouse.SolarEnergy.Domain.Entities;
+using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories;
+using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
+using DEVinHouse.SolarEnergy.Domain.Services;
 using DEVinHouse.SolarEnergy.Identity.Data;
 using DEVinHouse.SolarEnergy.Identity.Services;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +33,10 @@ namespace DEVinHouse.SolarEnergy.Api.IoC
                 .AddDefaultTokenProviders();
 
             services.AddScoped<IIdentityService, IdentityService>();
-            services.AddTransient<IEmailService, EmailService>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IPlantRepository, PlantRepository>();
+            services.AddScoped<IPlantService, PlantService>();
+            services.AddScoped<IGenerationRepository, GenerationRepository>();
             services.Configure<AuthMessageSenderOptions>(configuration);
         }
     }

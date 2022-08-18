@@ -4,10 +4,11 @@ namespace DEVinHouse.SolarEnergy.Domain.Entities
 {
     public class Generation : Entity
     {
-        public DateTime Date { get; private set; }
-        public decimal MonthlyConsumption { get; private set; }
-        public decimal DailyAverage { get; private set; }
-        public int PlantId { get; private set; }
+        public string UserId { get; set; }
+        public DateTime Date { get; set; }
+        public decimal MonthlyConsumption { get; set; }
+        public decimal DailyAverage { get; set; }
+        public int PlantId { get; set; }
 
         public Generation(DateTime date, decimal monthlyConsumption, int plantId)
         {

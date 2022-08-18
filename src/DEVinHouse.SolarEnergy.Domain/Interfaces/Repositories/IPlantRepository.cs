@@ -1,18 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Domain.Entities;
 
 namespace DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories
 {
     public interface IPlantRepository
     {
-        Task<int> CreateAsync(Plant entity);
-        Task<Plant?> GetByIdAsync(int id);
-        Task<Plant?> FindByNameAsync(string name);
-        Task UpdateAsync(Plant entity);
-        Task DeleteAsync(Plant entity);
-        Task <IEnumerable<Plant>> GetPlantsAsync();
+        Task<PlantResponse> CreatePlantAsync(Plant plant);
+        Task<PlantResponse> GetPlantByIdAsync(int id);
+        Task<PlantsResponse> GetPlantsByNameAsync(string name, string userId, int page);
+        Task<PlantsResponse> GetPlantsByAddressAsync(string address, string userId, int page);
+        Task<PlantsResponse> GetPlantsByBrandAsync(string brand, string userId, int page);
+        Task<PlantsResponse> GetPlantsByModelAsync(string model, string userId, int page);
+        Task<PlantsResponse> GetPlantsByActiveStatusAsync(bool activeStatus, string userId, int page);
+        Task<PlantsResponse> GetPlantsAsync(string userId, int page);
+        Task<PlantResponse> UpdatePlantAsync(PlantUpdateRequest plantUpdateRequest);
+        Task<PlantResponse> DeletePlantAsync(Plant plant);
     }
 }
