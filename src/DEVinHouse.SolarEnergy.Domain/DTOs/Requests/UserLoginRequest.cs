@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DEVinHouse.SolarEnergy.Application.DTOs.Requests
+namespace DEVinHouse.SolarEnergy.Domain.DTOs.Requests
 {
     public class UserLoginRequest
     {

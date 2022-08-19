@@ -5,9 +5,6 @@ namespace DEVinHouse.SolarEnergy.Domain.DTOs.Requests
     public class PlantRequest
     {
         [Required]
-        public string UserId { get; set; }
-
-        [Required]
         public string Name { get; set; }
 
         [Required]

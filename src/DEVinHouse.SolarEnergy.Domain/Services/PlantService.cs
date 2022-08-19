@@ -12,21 +12,37 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
 
         public PlantService(IPlantRepository plantRepository)
         {
-        _plantRepository = plantRepository;
+            _plantRepository = plantRepository;
         }
 
-        public async Task<PlantResponse> AddPlant(PlantRequest plantRequest)
+        public async Task<PlantResponse> AddPlant(string userId, PlantRequest plantRequest)
         {
-            var plant = new Plant(
-                plantRequest.UserId,
-                plantRequest.Name,
-                plantRequest.Address,
-                plantRequest.Brand,
-                plantRequest.Model,
-                plantRequest.Active
-            );
+            var plantResponse = new PlantResponse(true);
 
-            return await _plantRepository.CreatePlantAsync(plant);
+            try {
+                var plant = new Plant(
+                    userId,
+                    plantRequest.Name,
+                    plantRequest.Address,
+                    plantRequest.Brand,
+                    plantRequest.Model,
+                    plantRequest.Active
+                );
+
+                await _plantRepository.CreatePlantAsync(plant);
+
+                plantResponse.Message = "Plant created successfully.";
+                return plantResponse;
+            } 
+            catch(Exception e)
+            {
+                plantResponse.Success = false;
+                plantResponse.Message = "Couldn't create plant.";
+
+                plantResponse.AddError(e.Message);
+
+                return plantResponse;
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 using System.Text;
-using DEVinHouse.SolarEnergy.Identity.Configurations;
+using DEVinHouse.SolarEnergy.Domain.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

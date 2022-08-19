@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DEVinHouse.SolarEnergy.Application.DTOs.Requests
+namespace DEVinHouse.SolarEnergy.Domain.DTOs.Requests
 {
     public class UserRegisterRequest
     {

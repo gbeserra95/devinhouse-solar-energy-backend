@@ -1,6 +1,6 @@
 using Microsoft.IdentityModel.Tokens;
 
-namespace DEVinHouse.SolarEnergy.Identity.Configurations
+namespace DEVinHouse.SolarEnergy.Domain.Configurations
 {
   public class JwtOptions
     {

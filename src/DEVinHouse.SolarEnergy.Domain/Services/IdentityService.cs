@@ -1,10 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using DEVinHouse.SolarEnergy.Application.DTOs.Requests;
-using DEVinHouse.SolarEnergy.Application.DTOs.Responses;
-using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
+using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
 using DEVinHouse.SolarEnergy.Domain.Entities;
-using DEVinHouse.SolarEnergy.Identity.Configurations;
+using DEVinHouse.SolarEnergy.Domain.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -78,7 +78,7 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 			var tokenClaims = await GetClaims(user);
 
 			var notBefore = DateTime.Now;
-			var expirationDate = DateTime.Now.AddSeconds(_jwtOptions.Expiration);
+			var expirationDate = DateTime.Now.AddSeconds(3600);
 
 			var jwt = new JwtSecurityToken
 			(

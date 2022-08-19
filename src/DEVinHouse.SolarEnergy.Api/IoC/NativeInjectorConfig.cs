@@ -1,11 +1,11 @@
-using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
 using DEVinHouse.SolarEnergy.Data.Context;
 using DEVinHouse.SolarEnergy.Data.Repositories;
+using DEVinHouse.SolarEnergy.Data.Repositories.Shared;
 using DEVinHouse.SolarEnergy.Domain.Entities;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories;
+using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories.Shared;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
 using DEVinHouse.SolarEnergy.Domain.Services;
-using DEVinHouse.SolarEnergy.Identity.Data;
 using DEVinHouse.SolarEnergy.Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
@@ -24,19 +24,17 @@ namespace DEVinHouse.SolarEnergy.Api.IoC
                 options.UseSqlServer(conStrBuilder.ConnectionString)
             );
 
-            services.AddDbContext<IdentityDataContext>(options =>
-                options.UseSqlServer(conStrBuilder.ConnectionString)
-            );
-
             services.AddDefaultIdentity<User>()
-                .AddEntityFrameworkStores<IdentityDataContext>()
+                .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddScoped<IIdentityService, IdentityService>();
-            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IPlantRepository, PlantRepository>();
+
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddScoped<IPlantService, PlantService>();
-            services.AddScoped<IGenerationRepository, GenerationRepository>();
+            
             services.Configure<AuthMessageSenderOptions>(configuration);
         }
     }

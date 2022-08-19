@@ -1,6 +1,6 @@
-using DEVinHouse.SolarEnergy.Application.DTOs.Requests;
-using DEVinHouse.SolarEnergy.Application.DTOs.Responses;
-using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
+using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DEVinHouse.SolarEnergy.Api.Controllers

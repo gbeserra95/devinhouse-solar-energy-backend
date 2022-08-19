@@ -1,7 +1,7 @@
-using DEVinHouse.SolarEnergy.Application.DTOs.Requests;
-using DEVinHouse.SolarEnergy.Application.DTOs.Responses;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 
-namespace DEVinHouse.SolarEnergy.Application.Interfaces.Services
+namespace DEVinHouse.SolarEnergy.Domain.Interfaces.Services
 {
     public interface IIdentityService
     {

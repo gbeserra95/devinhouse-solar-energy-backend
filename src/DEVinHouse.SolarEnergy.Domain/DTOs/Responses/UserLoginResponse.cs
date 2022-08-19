@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace DEVinHouse.SolarEnergy.Application.DTOs.Responses
+namespace DEVinHouse.SolarEnergy.Domain.DTOs.Responses
 {
     public class UserLoginResponse
     {

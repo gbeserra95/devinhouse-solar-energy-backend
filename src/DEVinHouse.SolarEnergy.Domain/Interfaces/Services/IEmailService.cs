@@ -1,6 +1,6 @@
-using DEVinHouse.SolarEnergy.Application.DTOs.Responses;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 
-namespace DEVinHouse.SolarEnergy.Application.Interfaces.Services
+namespace DEVinHouse.SolarEnergy.Domain.Interfaces.Services
 {
     public interface IEmailService
     {

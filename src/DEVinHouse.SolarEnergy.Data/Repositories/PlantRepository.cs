@@ -5,7 +5,6 @@ using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Domain.Entities;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories.Shared;
-using Microsoft.EntityFrameworkCore;
 
 namespace DEVinHouse.SolarEnergy.Data.Repositories
 {
@@ -21,33 +20,14 @@ namespace DEVinHouse.SolarEnergy.Data.Repositories
         _dataContext = dataContext;        
     }
 
-    public async Task<PlantResponse> CreatePlantAsync(Plant plant)
+    public async Task CreatePlantAsync(Plant plant)
     {
       await _baseRepository.CreateAsync(plant);
-
-      var plantResponse = new PlantResponse();
-      plantResponse.Message = "Plant was successfully created.";
-
-      return plantResponse;
     }
 
-    public async Task<PlantResponse> GetPlantByIdAsync(int id)
+    public async Task<Plant?> GetPlantByIdAsync(int id)
     {
-      var plant = await _baseRepository.GetByIdAsync(id);
-      var plantResponse = new PlantResponse();
-
-      if(plant == null)
-      {
-        plantResponse.Success = false;
-        plantResponse.Message = "Plant could NOT be found.";
-
-        return plantResponse;
-      }
-
-      plantResponse.Success = true;
-      plantResponse.Plant = plant;
-
-      return plantResponse;
+      return await _baseRepository.GetByIdAsync(id);
     }
 
     public async Task<PlantsResponse> GetPlantsByNameAsync(string name, string userId, int page)
@@ -128,43 +108,14 @@ namespace DEVinHouse.SolarEnergy.Data.Repositories
       return new PlantsResponse(plants);
     }
 
-    public async Task<PlantResponse> UpdatePlantAsync(PlantUpdateRequest plantUpdateRequest)
+    public async Task UpdatePlantAsync(Plant plant)
     {
-      var plant = await _baseRepository.GetByIdAsync(plantUpdateRequest.Id);
-      var plantResponse = new PlantResponse();
-
-      if(plant == null)
-      {
-        plantResponse.Success = false;
-        plantResponse.Message = "Plant could NOT be found.";
-
-        return plantResponse;
-      }
-
-      plant.UpdatePlant(
-        plantUpdateRequest.Name,
-        plantUpdateRequest.Address,
-        plantUpdateRequest.Brand,
-        plantUpdateRequest.Model,
-        plantUpdateRequest.Active
-      );
-
       await _baseRepository.UpdateAsync(plant);
-
-      plantResponse.Success = true;
-      plantResponse.Message = "Plant was updated.";
-
-      return plantResponse;
     }
 
-    public async Task<PlantResponse> DeletePlantAsync(Plant plant)
+    public async Task DeletePlantAsync(Plant plant)
     {
       await _baseRepository.DeleteAsync(plant);
-
-      var plantResponse = new PlantResponse(true);
-      plantResponse.Message = "Plant was successfully deleted.";
-
-      return plantResponse;
     }
   }
 }

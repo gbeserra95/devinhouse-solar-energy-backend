@@ -1,4 +1,4 @@
-namespace DEVinHouse.SolarEnergy.Identity.Services
+namespace DEVinHouse.SolarEnergy.Domain.Services
 {
     public class AuthMessageSenderOptions
     {

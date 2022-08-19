@@ -5,6 +5,6 @@ namespace DEVinHouse.SolarEnergy.Domain.Interfaces.Services
 {
     public interface IPlantService
     {
-        Task<PlantResponse> AddPlant(PlantRequest plantRequest);
+        Task<PlantResponse> AddPlant(string userId, PlantRequest plantRequest);
     }
 }

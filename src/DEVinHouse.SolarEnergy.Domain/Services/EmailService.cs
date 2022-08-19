@@ -1,10 +1,11 @@
-using DEVinHouse.SolarEnergy.Application.DTOs.Responses;
-using DEVinHouse.SolarEnergy.Application.Interfaces.Services;
+using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
+using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
 using DEVinHouse.SolarEnergy.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using DEVinHouse.SolarEnergy.Domain.Services;
 
 namespace DEVinHouse.SolarEnergy.Identity.Services
 {

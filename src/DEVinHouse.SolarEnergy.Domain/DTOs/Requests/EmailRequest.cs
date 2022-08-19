@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DEVinHouse.SolarEnergy.Application.DTOs.Requests
+namespace DEVinHouse.SolarEnergy.Domain.DTOs.Requests
 {
-    public class PasswordForgottenRequest
+    public class EmailRequest
     {
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
     }
 }

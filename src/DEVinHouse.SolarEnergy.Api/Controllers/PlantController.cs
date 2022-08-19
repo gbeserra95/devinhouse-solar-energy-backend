@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
@@ -24,12 +25,15 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             if(!ModelState.IsValid)
                 return BadRequest();
 
-            var result = await _plantService.AddPlant(plantRequest);
+            var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _plantService.AddPlant(userId, plantRequest);
 
             if(result.Success)
-                return Ok(result.Message);
-
-            return BadRequest(result.Message);
+                return Ok(result);
+            else if(result.Errors.Count > 0)
+                return BadRequest(result);
+            
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }
