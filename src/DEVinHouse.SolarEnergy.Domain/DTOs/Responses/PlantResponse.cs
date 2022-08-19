@@ -15,7 +15,6 @@ namespace DEVinHouse.SolarEnergy.Domain.DTOs.Responses
         }
 
         public void AddError(string error) => Errors.Add(error);
-
         public void AddErrors(IEnumerable<string> errors) => Errors.AddRange(errors);
     }
 }

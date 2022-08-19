@@ -1,6 +1,5 @@
 using Canducci.Pagination;
 using DEVinHouse.SolarEnergy.Data.Context;
-using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Domain.Entities;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories;
@@ -30,79 +29,22 @@ namespace DEVinHouse.SolarEnergy.Data.Repositories
       return await _baseRepository.GetByIdAsync(id);
     }
 
-    public async Task<PlantsResponse> GetPlantsByNameAsync(string name, string userId, int page)
+    public async Task<PlantsResponse> GetPlantsAsync(string userId, int page, string? filter, bool? activeStatus)
     {
       if(page == 0)
         page = 1;
-      
-      var plants = await _dataContext.Plants
-        .Where(p => p.UserId == userId && p.Name.Contains(name))
-        .OrderBy(p => p.Name)
-        .ToPaginatedRestAsync(page, limit);
 
-      return new PlantsResponse(plants);
-    }
-
-    public async Task<PlantsResponse> GetPlantsByAddressAsync(string address, string userId, int page)
-    {
-      if(page == 0)
-        page = 1;
-      
-      var plants = await _dataContext.Plants
-        .Where(p => p.UserId == userId && p.Address.Contains(address))
-        .OrderBy(p => p.Name)
-        .ToPaginatedRestAsync(page, limit);
-
-      return new PlantsResponse(plants);
-    }
-
-    public async Task<PlantsResponse> GetPlantsByBrandAsync(string brand, string userId, int page)
-    {
-      if(page == 0)
-        page = 1;
-      
-      var plants = await _dataContext.Plants
-        .Where(p => p.UserId == userId && p.Brand.Contains(brand))
-        .OrderBy(p => p.Name)
-        .ToPaginatedRestAsync(page, limit);
-
-      return new PlantsResponse(plants);
-    }
-
-    public async Task<PlantsResponse> GetPlantsByModelAsync(string model, string userId, int page)
-    {
-      if(page == 0)
-        page = 1;
-      
-      var plants = await _dataContext.Plants
-        .Where(p => p.UserId == userId && p.Model.Contains(model))
-        .OrderBy(p => p.Name)
-        .ToPaginatedRestAsync(page, limit);
-
-      return new PlantsResponse(plants);
-    }
-
-    public async Task<PlantsResponse> GetPlantsByActiveStatusAsync(bool activeStatus, string userId, int page)
-    {
-      if(page == 0)
-        page = 1;
-      
-      var plants = await _dataContext.Plants
-        .Where(p => p.UserId == userId && p.Active == activeStatus)
-        .OrderBy(p => p.Name)
-        .ToPaginatedRestAsync(page, limit);
-
-      return new PlantsResponse(plants);
-    }
-
-    public async Task<PlantsResponse> GetPlantsAsync(string userId, int page)
-    {
-      if(page == 0)
-        page = 1;
-      
       var plants = await _dataContext.Plants
         .Where(p => p.UserId == userId)
-        .OrderBy(p => p.Name)
+        .OrderByDescending(p => p.Id)
+        .Where(p => activeStatus == null || p.Active == activeStatus)
+        .Where(
+          p => string.IsNullOrEmpty(filter)
+          || p.Name.Contains(filter)
+          || p.Address.Contains(filter)
+          || p.Brand.Contains(filter)
+          || p.Model.Contains(filter)
+        )
         .ToPaginatedRestAsync(page, limit);
 
       return new PlantsResponse(plants);

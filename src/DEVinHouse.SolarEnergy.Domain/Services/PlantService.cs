@@ -1,3 +1,4 @@
+using Canducci.Pagination;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Domain.Entities;
@@ -19,7 +20,8 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
         {
             var plantResponse = new PlantResponse(true);
 
-            try {
+            try 
+            {
                 var plant = new Plant(
                     userId,
                     plantRequest.Name,
@@ -43,6 +45,19 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
 
                 return plantResponse;
             }
+        }
+
+        public async Task<PlantsResponse> GetPlants(string userId, int page, string? filter, bool? activeStatus)
+        {
+            var plantsResponse = await _plantRepository.GetPlantsAsync(userId, page, filter, activeStatus);
+            
+            if(plantsResponse.Plants.Count() == 0)
+            {
+                plantsResponse.Success = false;
+                plantsResponse.Message = "Couldn't find any Plant that matches the query.";
+            }
+
+            return plantsResponse;
         }
     }
 }

@@ -5,6 +5,11 @@ namespace DEVinHouse.SolarEnergy.Domain.DTOs.Responses
 {
     public class PlantsResponse
     {
+        public bool Success { get ; set; }
+        public string? Message { get; set; }
+        public List<string> Errors { get; set; }
+        public void AddError(string error) => Errors.Add(error);
+        public void AddErrors(IEnumerable<string> errors) => Errors.AddRange(errors);
         public int PageCount { get; set; }
         public int TotalItemCount { get; set; }
         public int PageNumber { get; set; }
@@ -17,6 +22,9 @@ namespace DEVinHouse.SolarEnergy.Domain.DTOs.Responses
 
         public PlantsResponse(PaginatedRest<Plant> plants)
         {
+            Success = true;
+            Message = Message;
+            Plants = plants.Items.ToList();
             PageCount = plants.PageCount;
             PageNumber = plants.PageNumber;
             PageSize = plants.PageSize;
@@ -25,7 +33,7 @@ namespace DEVinHouse.SolarEnergy.Domain.DTOs.Responses
             HasNextPage = plants.HasNextPage;
             IsFirstPage = plants.IsFirstPage;
             IsLastPage = plants.IsLastPage;
-            Plants = plants.Items.ToList();
+            Errors = new List<string>();
         }
     }
 }

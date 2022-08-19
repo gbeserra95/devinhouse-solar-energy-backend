@@ -19,7 +19,19 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             _plantService = plantService;
         }
 
-        [HttpPost("add-plant")]
+        [HttpGet]
+        public async Task<ActionResult<PlantsResponse>> GetAll(int page, string? filter, bool? activeStatus)
+        {
+            var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _plantService.GetPlants(userId, page, filter, activeStatus);
+
+            if(result.Success)
+                return Ok(result);
+
+            return NotFound(result);
+        }
+
+        [HttpPost]
         public async Task<ActionResult<PlantResponse>> AddPlant(PlantRequest plantRequest)
         {
             if(!ModelState.IsValid)
