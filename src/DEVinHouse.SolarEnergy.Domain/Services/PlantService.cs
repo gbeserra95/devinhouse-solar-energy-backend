@@ -47,6 +47,18 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
             }
         }
 
+        public async Task<Plant?> GetPlant(string userId, int plantId)
+        {
+            var plant = await _plantRepository.GetPlantByIdAsync(plantId);
+
+            if(plant is null || plant.UserId != userId)
+            {
+                return null;
+            }
+
+            return plant;
+        }
+
         public async Task<PlantsResponse> GetPlants(string userId, int page, string? filter, bool? activeStatus)
         {
             var plantsResponse = await _plantRepository.GetPlantsAsync(userId, page, filter, activeStatus);
@@ -58,6 +70,78 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
             }
 
             return plantsResponse;
+        }
+
+        public async Task<PlantResponse> UpdatePlant(string userId, int plantId, PlantRequest plantRequest)
+        {
+            var plantResponse = new PlantResponse(true);
+
+            try 
+            {
+                Plant? plant = await _plantRepository.GetPlantByIdAsync(plantId);
+
+                if(plant is null || plant.UserId != userId)
+                {
+                    plantResponse.Success = false;
+                    plantResponse.Message = "Plant doesn't exist.";
+
+                    return plantResponse;
+                }
+
+                plant.UpdatePlant(
+                    plantRequest.Name,
+                    plantRequest.Address,
+                    plantRequest.Brand,
+                    plantRequest.Model,
+                    plantRequest.Active
+                );
+
+                await _plantRepository.UpdatePlantAsync(plant);
+
+                plantResponse.Message = "Plant updated successfully.";
+                return plantResponse;
+            } 
+            catch(Exception e)
+            {
+                plantResponse.Success = false;
+                plantResponse.Message = "Couldn't update plant.";
+
+                plantResponse.AddError(e.Message);
+
+                return plantResponse;
+            }
+        }
+
+        public async Task<PlantResponse> DeletePlant(string userId, int plantId)
+        {
+            var plantResponse = new PlantResponse(true);
+
+            try 
+            {
+                Plant? plant = await _plantRepository.GetPlantByIdAsync(plantId);
+
+                if(plant is null || plant.UserId != userId)
+                {
+                    plantResponse.Success = false;
+                    plantResponse.Message = "Plant doesn't exist.";
+
+                    return plantResponse;
+                }
+
+                await _plantRepository.DeletePlantAsync(plant);
+
+                plantResponse.Message = "Plant deleted successfully.";
+                return plantResponse;
+            } 
+            catch(Exception e)
+            {
+                plantResponse.Success = false;
+                plantResponse.Message = "Couldn't delete plant.";
+
+                plantResponse.AddError(e.Message);
+
+                return plantResponse;
+            }
         }
     }
 }

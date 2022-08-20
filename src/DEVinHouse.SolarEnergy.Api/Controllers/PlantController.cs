@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
+using DEVinHouse.SolarEnergy.Domain.Entities;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,18 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
         public PlantController(IPlantService plantService)
         {
             _plantService = plantService;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Plant>> GetPlant(int id)
+        {
+            var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _plantService.GetPlant(userId, id);
+
+            if(result == null)
+                return NoContent();
+            
+            return Ok(result);
         }
 
         [HttpGet]
@@ -39,6 +52,40 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             var result = await _plantService.AddPlant(userId, plantRequest);
+
+            if(result.Success)
+                return Ok(result);
+            else if(result.Errors.Count > 0)
+                return BadRequest(result);
+            
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<PlantResponse>> UpdatePlant(int plantId, PlantRequest plantRequest)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _plantService.UpdatePlant(userId, plantId, plantRequest);
+
+            if(result.Success)
+                return Ok(result);
+
+            if(result.Success)
+                return Ok(result);
+            else if(result.Errors.Count > 0)
+                return BadRequest(result);
+            
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<PlantResponse>> DeletePlant(int plantId)
+        {
+            var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _plantService.DeletePlant(userId, plantId);
 
             if(result.Success)
                 return Ok(result);

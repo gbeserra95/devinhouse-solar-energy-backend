@@ -31,11 +31,6 @@ namespace DEVinHouse.SolarEnergy.Data.Mappings
     builder.Property(p => p.Active)
         .HasColumnType("bit")
         .IsRequired();
-
-    builder.HasMany(u => u.Generations)
-        .WithOne()
-        .HasForeignKey(g => g.PlantId)
-        .OnDelete(DeleteBehavior.Cascade);
     }
   }
 }

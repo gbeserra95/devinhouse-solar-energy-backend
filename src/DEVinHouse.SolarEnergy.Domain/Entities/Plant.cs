@@ -10,7 +10,6 @@ namespace DEVinHouse.SolarEnergy.Domain.Entities
         public string Brand { get; set; }
         public string Model { get; set; }
         public bool Active { get; set; }
-        public ICollection<Generation>? Generations { get; set; }
 
         public Plant(string userId, string name, string address, string brand, string model, bool active) 
         {
