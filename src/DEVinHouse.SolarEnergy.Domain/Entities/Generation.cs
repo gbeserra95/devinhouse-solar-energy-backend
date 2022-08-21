@@ -10,8 +10,9 @@ namespace DEVinHouse.SolarEnergy.Domain.Entities
         public decimal DailyAverage { get; set; }
         public int PlantId { get; set; }
 
-        public Generation(DateTime date, decimal monthlyConsumption, int plantId)
+        public Generation(string userId, DateTime date, decimal monthlyConsumption, int plantId)
         {
+            UserId = userId;
             Date = date;
             MonthlyConsumption = monthlyConsumption;  
             PlantId = plantId;

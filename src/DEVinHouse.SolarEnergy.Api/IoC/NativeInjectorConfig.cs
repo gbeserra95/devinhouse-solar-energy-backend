@@ -30,10 +30,12 @@ namespace DEVinHouse.SolarEnergy.Api.IoC
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IPlantRepository, PlantRepository>();
+            services.AddScoped<IGenerationRepository, GenerationRepository>();
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddScoped<IPlantService, PlantService>();
+            services.AddScoped<IGenerationService, GenerationService>();
             
             services.Configure<AuthMessageSenderOptions>(configuration);
         }
