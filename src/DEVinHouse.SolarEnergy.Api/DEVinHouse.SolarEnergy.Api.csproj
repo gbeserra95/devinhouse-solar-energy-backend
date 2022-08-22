@@ -1,23 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿	<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>453512fd-6682-42d5-8b66-7720ed07d271</UserSecretsId>
-  </PropertyGroup>
+	<PropertyGroup>
+			<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>453512fd-6682-42d5-8b66-7720ed07d271</UserSecretsId>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
+		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DEVinHouse.SolarEnergy.Domain\DEVinHouse.SolarEnergy.Domain.csproj" />
-    <ProjectReference Include="..\DEVinHouse.SolarEnergy.Data\DEVinHouse.SolarEnergy.Data.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DEVinHouse.SolarEnergy.Domain\DEVinHouse.SolarEnergy.Domain.csproj" />
+		<ProjectReference Include="..\DEVinHouse.SolarEnergy.Data\DEVinHouse.SolarEnergy.Data.csproj" />
+	</ItemGroup>
 
-</Project>
+	</Project>

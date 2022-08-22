@@ -20,6 +20,12 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             _emailService = emailService;
         }
 
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad Request.</response>
+        /// <response code="500">Internal Server Error.</response>    
         [HttpPost("register")]
         public async Task<ActionResult<UserRegisterResponse>> Register(UserRegisterRequest userRegister)
         {
@@ -36,6 +42,13 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        /// <summary>
+        /// Login.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad Request.</response>
+        /// <response code="401">Unauthorized.</response>
+        /// <response code="500">Internal Server Error.</response>  
         [HttpPost("login")]
         public async Task<ActionResult<UserLoginResponse>> Login(UserLoginRequest userLogin)
         {
@@ -50,6 +63,11 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return Unauthorized(result);
         }
 
+        /// <summary>
+        /// Resends email verification.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="500">Internal Server Error.</response>  
         [HttpPost("resend-email")]
         public async Task<ActionResult<EmailConfirmationResponse>> ResendEmail(EmailRequest emailRequest)
         {
@@ -61,6 +79,12 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return Ok(new EmailConfirmationResponse());
         }
 
+        /// <summary>
+        /// Validates user with token received via email.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad Request.</response>
+        /// <response code="500">Internal Server Error.</response>  
         [HttpPost("validate-email")]
         public async Task<ActionResult<EmailConfirmationResponse>> ValidateEmail(EmailConfirmationRequest emailConfirmationRequest)
         {
@@ -77,6 +101,12 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        /// <summary>
+        /// Sends password change request via email.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad Request.</response>
+        /// <response code="500">Internal Server Error.</response>  
         [HttpPost("forgot-password")]
         public async Task<ActionResult<PasswordForgottenResponse>> ForgotPassword(PasswordForgottenRequest forgotPasswordRequest)
         {
@@ -93,6 +123,12 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        /// <summary>
+        /// Resets password with token received via email.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad Request.</response>
+        /// <response code="500">Internal Server Error.</response>  
         [HttpPost("reset-password")]
         public async Task<ActionResult<PasswordResetResponse>> ResetPassword(PasswordResetRequest passwordResetRequest)
         {
@@ -109,6 +145,13 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        /// <summary>
+        /// Removes an existing. Must be authenticated.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad Request.</response>
+        /// <response code="401">Unauthorized.</response>
+        /// <response code="500">Internal Server Error.</response>  
         [Authorize]
         [HttpDelete("remove-user")]
         public async Task<ActionResult<UserDeleteResponse>> DeleteUser(string email)
@@ -124,6 +167,13 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        /// <summary>
+        /// Updates an existing user. Must be authenticated.
+        /// </summary>
+        /// <response code="200">Success.</response>
+        /// <response code="400">Bad Request.</response>
+        /// <response code="401">Unauthorized.</response>
+        /// <response code="500">Internal Server Error.</response>  
         [HttpPut("update-user")]
         public async Task<ActionResult<UserRegisterResponse>> UpdateUser(UserUpdateRequest userUpdateRequest)
         {
