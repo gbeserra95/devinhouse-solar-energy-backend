@@ -29,14 +29,14 @@ namespace DEVinHouse.SolarEnergy.Data.Repositories
         return await _baseRepository.GetByIdAsync(id);
     }
 
-    public async Task<GenerationsResponse> GetGenerationsAsync(string userId, int plantId, int page, DateTime? initialDate, DateTime? finalDate)
+    public async Task<GenerationsResponse> GetGenerationsAsync(string userId, int? plantId, int page, DateTime? initialDate, DateTime? finalDate)
     {
         if(page == 0)
             page = 1;
 
         var generations = await _dataContext.Generations
             .Where(g => g.UserId == userId)
-            .Where(g => g.PlantId == plantId)
+            .Where(g => plantId == null || g.PlantId == plantId)
             .Where(g => initialDate == null || g.Date >= initialDate)
             .Where(g => finalDate == null || g.Date <= finalDate)
             .ToPaginatedRestAsync(page, limit);

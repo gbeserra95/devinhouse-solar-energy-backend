@@ -26,14 +26,14 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
             var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             var result = await _generationService.GetGeneration(userId, id);
 
-            if(result == null)
+            if(result is null)
                 return NoContent();
             
             return Ok(result);
         }
 
         [HttpGet]
-        public async Task<ActionResult<GenerationsResponse>> GetAll(int plantId, int page, DateTime? initialDate, DateTime? finalDate)
+        public async Task<ActionResult<GenerationsResponse>> GetAll(int? plantId, int page, DateTime? initialDate, DateTime? finalDate)
         {
             var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
             var result = await _generationService.GetGenerations(userId, plantId, page, initialDate, finalDate);
@@ -55,7 +55,7 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             if(result.Success)
                 return Ok(result);
-            else if(result.Errors.Count > 0)
+            else if(!result.Success)
                 return BadRequest(result);
             
             return StatusCode(StatusCodes.Status500InternalServerError);
@@ -72,10 +72,7 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             if(result.Success)
                 return Ok(result);
-
-            if(result.Success)
-                return Ok(result);
-            else if(result.Errors.Count > 0)
+            else if(!result.Success)
                 return BadRequest(result);
             
             return StatusCode(StatusCodes.Status500InternalServerError);
@@ -89,7 +86,7 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             if(result.Success)
                 return Ok(result);
-            else if(result.Errors.Count > 0)
+            else if(!result.Success)
                 return BadRequest(result);
             
             return StatusCode(StatusCodes.Status500InternalServerError);

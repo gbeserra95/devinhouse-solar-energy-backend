@@ -10,23 +10,23 @@ using Microsoft.Extensions.Options;
 
 namespace DEVinHouse.SolarEnergy.Identity.Services
 {
-  public class IdentityService : IIdentityService
-  {
-    private readonly SignInManager<User> _signInManager;
-    private readonly UserManager<User> _userManager;
-    private readonly JwtOptions _jwtOptions;
+  	public class IdentityService : IIdentityService
+  	{
+		private readonly SignInManager<User> _signInManager;
+		private readonly UserManager<User> _userManager;
+		private readonly JwtOptions _jwtOptions;
 		private readonly IEmailService _emailService;
 
-    public IdentityService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<JwtOptions> jwtOptions, IEmailService emailService)
-    {
+		public IdentityService(SignInManager<User> signInManager, UserManager<User> userManager, IOptions<JwtOptions> jwtOptions, IEmailService emailService)
+		{
 			_signInManager = signInManager;
 			_userManager = userManager;
 			_jwtOptions = jwtOptions.Value;
 			_emailService = emailService;
-    }
+		}
 
 		public async Task<UserRegisterResponse> RegisterUser(UserRegisterRequest userRegister)
-    {
+		{
 			var identityUser = new User
 			{
 				FirstName = userRegister.FirstName,
@@ -38,7 +38,7 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 			var result = await _userManager.CreateAsync(identityUser, userRegister.Password);
 
 			if(result.Succeeded)
-					await _emailService.SendEmailConfirmation(userRegister.Email);
+				await _emailService.SendEmailConfirmation(userRegister.Email);
 
 			var userRegisterResponse = new UserRegisterResponse(result.Succeeded);
 
@@ -46,10 +46,10 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 				userRegisterResponse.AddErrors(result.Errors.Select(err => err.Description));
 
 			return userRegisterResponse;
-    }
+		}
 
-    public async Task<UserLoginResponse> Login(UserLoginRequest userLogin)
-    {
+		public async Task<UserLoginResponse> Login(UserLoginRequest userLogin)
+		{
 			var result = await _signInManager.PasswordSignInAsync(userLogin.Email, userLogin.Password, false, true);
 
 			if(result.Succeeded)
@@ -70,7 +70,7 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 			}
 
 			return userLoginResponse;
-    }
+		}
 
 		private async Task<UserLoginResponse> GenerateToken(string email)
 		{
@@ -100,16 +100,16 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 			);
 		}
 		private async Task<IList<Claim>> GetClaims(User user)
-			{
-				var claims = await _userManager.GetClaimsAsync(user);
-				
-				claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
-				claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
-				claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-				claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()));
-				claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()));
+		{
+			var claims = await _userManager.GetClaimsAsync(user);
+			
+			claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+			claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
+			claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
+			claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()));
+			claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()));
 
-				return claims;
-			}
-  }
+			return claims;
+		}
+	}
 }

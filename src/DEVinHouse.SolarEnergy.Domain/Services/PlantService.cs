@@ -20,31 +20,19 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
         {
             var plantResponse = new PlantResponse(true);
 
-            try 
-            {
-                var plant = new Plant(
-                    userId,
-                    plantRequest.Name,
-                    plantRequest.Address,
-                    plantRequest.Brand,
-                    plantRequest.Model,
-                    plantRequest.Active
-                );
+            var plant = new Plant(
+                userId,
+                plantRequest.Name,
+                plantRequest.Address,
+                plantRequest.Brand,
+                plantRequest.Model,
+                plantRequest.Active
+            );
 
-                await _plantRepository.CreatePlantAsync(plant);
+            await _plantRepository.CreatePlantAsync(plant);
 
-                plantResponse.Message = "Plant created successfully.";
-                return plantResponse;
-            } 
-            catch(Exception e)
-            {
-                plantResponse.Success = false;
-                plantResponse.Message = "Couldn't create plant.";
-
-                plantResponse.AddError(e.Message);
-
-                return plantResponse;
-            }
+            plantResponse.Message = "Plant created successfully.";
+            return plantResponse;
         }
 
         public async Task<Plant?> GetPlant(string userId, int plantId)
@@ -52,9 +40,7 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
             var plant = await _plantRepository.GetPlantByIdAsync(plantId);
 
             if(plant is null || plant.UserId != userId)
-            {
                 return null;
-            }
 
             return plant;
         }
@@ -75,73 +61,47 @@ namespace DEVinHouse.SolarEnergy.Domain.Services
         public async Task<PlantResponse> UpdatePlant(string userId, int plantId, PlantRequest plantRequest)
         {
             var plantResponse = new PlantResponse(true);
+            Plant? plant = await _plantRepository.GetPlantByIdAsync(plantId);
 
-            try 
-            {
-                Plant? plant = await _plantRepository.GetPlantByIdAsync(plantId);
-
-                if(plant is null || plant.UserId != userId)
-                {
-                    plantResponse.Success = false;
-                    plantResponse.Message = "Plant doesn't exist.";
-
-                    return plantResponse;
-                }
-
-                plant.UpdatePlant(
-                    plantRequest.Name,
-                    plantRequest.Address,
-                    plantRequest.Brand,
-                    plantRequest.Model,
-                    plantRequest.Active
-                );
-
-                await _plantRepository.UpdatePlantAsync(plant);
-
-                plantResponse.Message = "Plant updated successfully.";
-                return plantResponse;
-            } 
-            catch(Exception e)
+            if(plant is null || plant.UserId != userId)
             {
                 plantResponse.Success = false;
-                plantResponse.Message = "Couldn't update plant.";
-
-                plantResponse.AddError(e.Message);
+                plantResponse.Message = "Plant doesn't exist.";
 
                 return plantResponse;
             }
+
+            plant.UpdatePlant(
+                plantRequest.Name,
+                plantRequest.Address,
+                plantRequest.Brand,
+                plantRequest.Model,
+                plantRequest.Active
+            );
+
+            await _plantRepository.UpdatePlantAsync(plant);
+            plantResponse.Message = "Plant updated successfully.";
+
+            return plantResponse;
         }
 
         public async Task<PlantResponse> DeletePlant(string userId, int plantId)
         {
             var plantResponse = new PlantResponse(true);
+            Plant? plant = await _plantRepository.GetPlantByIdAsync(plantId);
 
-            try 
-            {
-                Plant? plant = await _plantRepository.GetPlantByIdAsync(plantId);
-
-                if(plant is null || plant.UserId != userId)
-                {
-                    plantResponse.Success = false;
-                    plantResponse.Message = "Plant doesn't exist.";
-
-                    return plantResponse;
-                }
-
-                await _plantRepository.DeletePlantAsync(plant);
-
-                plantResponse.Message = "Plant deleted successfully.";
-                return plantResponse;
-            } 
-            catch(Exception e)
+            if(plant is null || plant.UserId != userId)
             {
                 plantResponse.Success = false;
-                plantResponse.Message = "Couldn't delete plant.";
-
-                plantResponse.AddError(e.Message);
+                plantResponse.Message = "Plant doesn't exist.";
 
                 return plantResponse;
             }
+
+            await _plantRepository.DeletePlantAsync(plant);
+            plantResponse.Message = "Plant deleted successfully.";
+            
+            return plantResponse;
         }
     }
 }

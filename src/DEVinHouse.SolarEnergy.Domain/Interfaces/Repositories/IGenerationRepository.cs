@@ -7,7 +7,7 @@ namespace DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories
     {
         Task CreateGenerationAsync(Generation generation);
         Task<Generation?> GetGenerationByIdAsync(int id);
-        Task<GenerationsResponse> GetGenerationsAsync(string userId, int plantId, int page, DateTime? initialDate, DateTime? finalDate);
+        Task<GenerationsResponse> GetGenerationsAsync(string userId, int? plantId, int page, DateTime? initialDate, DateTime? finalDate);
         Task UpdateGenerationAsync(Generation generation);
         Task DeleteGenerationAsync(Generation generation);
     }

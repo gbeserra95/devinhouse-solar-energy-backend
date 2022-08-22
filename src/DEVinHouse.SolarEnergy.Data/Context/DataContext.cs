@@ -11,7 +11,8 @@ namespace DEVinHouse.SolarEnergy.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) // Mapping the database
         {
-            base.OnModelCreating(modelBuilder); // Import the mappings set
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Import the mappings set that was configured in the Mappings folder
+            base.OnModelCreating(modelBuilder);
         }
         public DbSet<Plant> Plants { get; set; }
         public DbSet<Generation> Generations { get; set; }

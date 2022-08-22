@@ -55,8 +55,6 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             if(result.Success)
                 return Ok(result);
-            else if(result.Errors.Count > 0)
-                return BadRequest(result);
             
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
@@ -72,12 +70,9 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             if(result.Success)
                 return Ok(result);
-
-            if(result.Success)
-                return Ok(result);
-            else if(result.Errors.Count > 0)
+            else if(!result.Success)
                 return BadRequest(result);
-            
+
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
@@ -89,7 +84,7 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
 
             if(result.Success)
                 return Ok(result);
-            else if(result.Errors.Count > 0)
+            else if(!result.Success)
                 return BadRequest(result);
             
             return StatusCode(StatusCodes.Status500InternalServerError);

@@ -7,9 +7,6 @@ namespace DEVinHouse.SolarEnergy.Domain.DTOs.Responses
     {
         public bool Success { get ; set; }
         public string? Message { get; set; }
-        public List<string> Errors { get; set; }
-        public void AddError(string error) => Errors.Add(error);
-        public void AddErrors(IEnumerable<string> errors) => Errors.AddRange(errors);
         public int PageCount { get; set; }
         public int TotalItemCount { get; set; }
         public int PageNumber { get; set; }
@@ -33,7 +30,6 @@ namespace DEVinHouse.SolarEnergy.Domain.DTOs.Responses
             HasNextPage = plants.HasNextPage;
             IsFirstPage = plants.IsFirstPage;
             IsLastPage = plants.IsLastPage;
-            Errors = new List<string>();
         }
     }
 }
