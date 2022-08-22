@@ -7,5 +7,7 @@ namespace DEVinHouse.SolarEnergy.Domain.Interfaces.Services
     {
         Task<UserRegisterResponse> RegisterUser(UserRegisterRequest userRegister);
         Task<UserLoginResponse> Login(UserLoginRequest userLogin );
+        Task<UserRegisterResponse> UpdateUser(string userId, UserUpdateRequest userUpdateRequest);
+        Task<UserDeleteResponse> DeleteUser(string email, string userId);
     }
 }

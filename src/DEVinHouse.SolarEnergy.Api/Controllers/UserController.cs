@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Requests;
 using DEVinHouse.SolarEnergy.Domain.DTOs.Responses;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DEVinHouse.SolarEnergy.Api.Controllers
@@ -98,6 +100,38 @@ namespace DEVinHouse.SolarEnergy.Api.Controllers
                 return BadRequest();
 
             var result = await _emailService.ResetPassword(passwordResetRequest.UserId.ToString(), passwordResetRequest.Token, passwordResetRequest.Password);
+
+            if(result.Success)
+                return Ok(result);
+            else if(result.Errors.Count > 0)
+                return BadRequest(result);
+            
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [Authorize]
+        [HttpDelete("remove-user")]
+        public async Task<ActionResult<UserDeleteResponse>> DeleteUser(string email)
+        {
+            var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _identityService.DeleteUser(email, userId);
+
+            if(result.Success)
+                return Ok(result);
+            else if(!result.Success)
+                return BadRequest(result);
+            
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPut("update-user")]
+        public async Task<ActionResult<UserRegisterResponse>> UpdateUser(UserUpdateRequest userUpdateRequest)
+        {
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            var userId = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+            var result = await _identityService.UpdateUser(userId, userUpdateRequest);
 
             if(result.Success)
                 return Ok(result);

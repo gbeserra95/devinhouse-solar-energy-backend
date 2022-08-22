@@ -111,5 +111,55 @@ namespace DEVinHouse.SolarEnergy.Identity.Services
 
 			return claims;
 		}
+
+		public async Task<UserRegisterResponse> UpdateUser(string userId, UserUpdateRequest userUpdateRequest)
+		{
+			var userUpdateResponse = new UserRegisterResponse(false);
+			User? user = await _userManager.FindByIdAsync(userId);
+
+			if(user is null)
+			{
+				userUpdateResponse.AddErrors(new List<string>{"Couldn't update this user."});
+				return userUpdateResponse;
+			}
+
+			user.FirstName = userUpdateRequest.FirstName;
+			user.LastName = userUpdateRequest.LastName;
+			user.Email = userUpdateRequest.Email;
+			user.UserName = userUpdateRequest.Email;
+			user.EmailConfirmed = false;
+			user.LockoutEnabled = true;
+
+			var result = await _userManager.UpdateAsync(user);
+
+			if(result.Succeeded)
+				await _emailService.SendEmailConfirmation(userUpdateRequest.Email);
+
+			userUpdateResponse = new UserRegisterResponse(result.Succeeded);
+
+			if(!result.Succeeded && result.Errors.Count() > 0)
+				userUpdateResponse.AddErrors(result.Errors.Select(err => err.Description));
+
+			return userUpdateResponse;
+		}
+
+		public async Task<UserDeleteResponse> DeleteUser(string email, string userId)
+		{
+			var userDeleteResponse = new UserDeleteResponse();
+			User? user = await _userManager.FindByEmailAsync(email);
+
+			if(user is null || user.Email != email)
+			{
+				userDeleteResponse.Success = false;
+				userDeleteResponse.Message = "Couldn't delete user.";
+
+				return userDeleteResponse;
+			}
+
+			await _userManager.DeleteAsync(user);
+
+			userDeleteResponse.Message = "User deleted successfully.";
+			return userDeleteResponse;
+		}
 	}
 }
