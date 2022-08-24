@@ -7,7 +7,9 @@ namespace DEVinHouse.SolarEnergy.Data.Context
 {
     public class DataContext : IdentityDbContext<User>
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) {}
+        public DataContext(DbContextOptions<DataContext> options) : base(options) {
+            this.Database.EnsureCreated();
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) // Mapping the database
         {

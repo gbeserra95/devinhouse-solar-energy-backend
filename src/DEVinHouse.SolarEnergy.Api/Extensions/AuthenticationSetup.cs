@@ -11,7 +11,8 @@ namespace DEVinHouse.SolarEnergy.Api.Extensions
         public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtAppSettingsOptions = configuration.GetSection(nameof(JwtOptions));
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration["SecurityKey"]));
+            var sendGridOptions = configuration.GetSection(nameof(AuthMessageSenderOptions));
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.GetSection("JwtOptions:SecurityKey").Value));
             
             services.Configure<JwtOptions>(options => 
             {
@@ -21,15 +22,28 @@ namespace DEVinHouse.SolarEnergy.Api.Extensions
                 options.Expiration = int.Parse(jwtAppSettingsOptions[nameof(JwtOptions.Expiration)] ?? "0");
             });
 
+            services.Configure<AuthMessageSenderOptions>(options => 
+            {
+                options.SendGridName = sendGridOptions[nameof(AuthMessageSenderOptions.SendGridName)];
+                options.SendGridEmail = sendGridOptions[nameof(AuthMessageSenderOptions.SendGridEmail)];
+                options.ConfirmEmailTemplateId = sendGridOptions[nameof(AuthMessageSenderOptions.ConfirmEmailTemplateId)];
+                options.ResetPasswordEmailTemplateId = sendGridOptions[nameof(AuthMessageSenderOptions.ResetPasswordEmailTemplateId)];
+                options.SendGridKey = sendGridOptions[nameof(AuthMessageSenderOptions.SendGridKey)];
+            });
+
             services.Configure<IdentityOptions>(options => 
             {
+                options.User.RequireUniqueEmail = true;
+
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
-                
+
                 options.SignIn.RequireConfirmedEmail = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 5;
             });
 
             var tokenValidationParameters = new TokenValidationParameters

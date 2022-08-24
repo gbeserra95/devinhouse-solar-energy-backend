@@ -1,6 +1,7 @@
 using DEVinHouse.SolarEnergy.Data.Context;
 using DEVinHouse.SolarEnergy.Data.Repositories;
 using DEVinHouse.SolarEnergy.Data.Repositories.Shared;
+using DEVinHouse.SolarEnergy.Domain.Configurations;
 using DEVinHouse.SolarEnergy.Domain.Entities;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories;
 using DEVinHouse.SolarEnergy.Domain.Interfaces.Repositories.Shared;
@@ -18,7 +19,6 @@ namespace DEVinHouse.SolarEnergy.Api.IoC
         public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
             var conStrBuilder = new SqlConnectionStringBuilder(configuration.GetConnectionString("LocalSQLserver"));
-            conStrBuilder.Password = configuration["DbPassword"];
             
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(conStrBuilder.ConnectionString)
