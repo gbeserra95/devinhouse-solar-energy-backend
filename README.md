@@ -5,7 +5,7 @@
 ![image](https://user-images.githubusercontent.com/47508755/186333271-cf565c30-ecf8-4d23-be48-ea3669037b3f.png)
 
 <div align="center">
-    <p>A CRUD application that simulates an energy management system developed with [ASP.Net Core](https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-6.0).</p>
+    <p>A CRUD application that simulates an energy management system developed with <a href="https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-6.0">ASP.Net Core</a>.</p>
 </div>
 
 ## About
