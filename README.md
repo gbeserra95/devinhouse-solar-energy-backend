@@ -1,9 +1,11 @@
-# DEVinHouse Solar Energy Backend
+<div align="center">
+    <h1>DEVinHouse Solar Energy Backend</h1>
+</div>
 
 ![image](https://user-images.githubusercontent.com/47508755/186333271-cf565c30-ecf8-4d23-be48-ea3669037b3f.png)
 
 <div align="center">
-    <p>A CRUD app simulating a Solar Energy management app developed in ASP.Net Core.</p>
+    <p>A CRUD application that simulates an energy management system developed with [ASP.Net Core](https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-6.0).</p>
 </div>
 
 ## About
@@ -18,7 +20,7 @@ DEVinHouse Solar Energy is an energy management app developed in React, Typescri
 - [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads)
 - [Swagger](https://swagger.io/)
 - [Canducci Pagination](https://github.com/fulviocanducci/Canducci.Paginated)
-- [Docker] (https://www.docker.com/)
+- [Docker](https://www.docker.com/)
 
 ## Installation
 
