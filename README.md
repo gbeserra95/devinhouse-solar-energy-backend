@@ -24,17 +24,17 @@ DEVinHouse Solar Energy is an energy management app developed in React, Typescri
 
 ## Installation
 
-1. Build the database docker container `docker-compose up -d`
+1. Run the database `docker-compose up -d`
 
-2. Access the Web Api project directory `cd src/DEVinHouse.SolarEnergy.Api`
+2. Change directory `cd src/DEVinHouse.SolarEnergy.Api`
 
-3. Run the application `dotnet run`
+3. Run `dotnet run`
 
 ## How to use
 
 1. Access `https://localhost:7116/swagger` on your web browser.
 
-2. To authenticate, hit the Authorize button and paste the token received after log in as `Bearer {TOKEN}`.
+2. To authenticate, hit the Authorize button and paste the token received after loggin in `Bearer {TOKEN}`.
 
 ## License
 
